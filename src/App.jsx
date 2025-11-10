@@ -1,26 +1,42 @@
-import { useState } from 'react'
+import { useRef } from 'react'
+import Navbar from './Navbar'
+import Hero from './components/Hero'
+import WhyChooseUs from './components/WhyChooseUs'
+import Testimonials from './components/Testimonials'
+import Pricing from './components/Pricing'
+import PaymentOptions from './components/PaymentOptions'
+import Urgency from './components/Urgency'
+import About from './components/About'
+import Contact from './components/Contact'
+import Footer from './components/Footer'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const pricingRef = useRef(null)
+
+  const scrollToPricing = () => {
+    const el = document.getElementById('pricing')
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
+  const handleBook = (plan) => {
+    scrollToPricing()
+    // Here you could open a payment link or scheduler; for now we just scroll to pricing.
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">
-          Vibe Coding Platform
-        </h1>
-        <p className="text-gray-600 mb-6">
-          Your AI-powered development environment
-        </p>
-        <div className="text-center">
-          <button
-            onClick={() => setCount(count + 1)}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-          >
-            Count is {count}
-          </button>
-        </div>
-      </div>
+    <div className="min-h-screen bg-white">
+      <Navbar />
+      <main>
+        <Hero onPrimaryClick={scrollToPricing} />
+        <WhyChooseUs />
+        <Testimonials />
+        <Pricing onBook={handleBook} ref={pricingRef} />
+        <PaymentOptions />
+        <Urgency onBook={scrollToPricing} />
+        <About />
+        <Contact />
+      </main>
+      <Footer />
     </div>
   )
 }
